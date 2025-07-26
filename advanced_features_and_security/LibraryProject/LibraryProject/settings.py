@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookshelf',
     'relationship_app',
-    'users'
+    'users',
+    'csp',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,33 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'bookshelf.CustomUser'
+
+# Disable debug in production
+DEBUG = False  # Ensure this is False in your production environment
+
+# Security Middleware (should already be in MIDDLEWARE)
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    # ... other middleware ...
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+# Browser-side protections
+SECURE_BROWSER_XSS_FILTER = True  # Enables the X-XSS-Protection header
+X_FRAME_OPTIONS = 'DENY'          # Prevents your site from being framed (clickjacking protection)
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents MIME-sniffing attacks
+
+# Cookies only sent over HTTPS
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# Additional Recommendations:
+# Redirect all HTTP traffic to HTTPS (optional but recommended)
+SECURE_SSL_REDIRECT = True
+
+# If behind a proxy, detect HTTPS correctly
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Strong secret key handling (use environment variable ideally)
+import os
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fallback-secret-key-for-dev-only')
