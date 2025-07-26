@@ -156,3 +156,25 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Strong secret key handling (use environment variable ideally)
 import os
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fallback-secret-key-for-dev-only')
+
+# Redirect all HTTP requests to HTTPS
+SECURE_SSL_REDIRECT = True  # Automatically redirect HTTP to HTTPS
+
+# HTTP Strict Transport Security (HSTS) settings
+SECURE_HSTS_SECONDS = 31536000  # 1 year in seconds
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains
+SECURE_HSTS_PRELOAD = True  # Allow site to be included in browsers' HSTS preload list
+
+# Important: You must have SecurityMiddleware enabled in MIDDLEWARE:
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    # ... other middleware ...
+]
+
+SESSION_COOKIE_SECURE = True  # Session cookies sent only via HTTPS
+CSRF_COOKIE_SECURE = True     # CSRF cookie sent only via HTTPS
+
+X_FRAME_OPTIONS = 'DENY'  # Prevent framing (clickjacking protection)
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent MIME sniffing
+SECURE_BROWSER_XSS_FILTER = True    # Enable browser XSS filtering
+
