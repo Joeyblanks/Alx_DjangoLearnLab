@@ -1,0 +1,21 @@
+<!-- bookshelf/templates/bookshelf/book_list.html -->
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <h1>Book List</h1>
+
+  {% if books %}
+    <ul>
+      {% for book in books %}
+        <li>
+          <strong>{{ book.title|escape }}</strong> by {{ book.author|escape }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No books available.</p>
+  {% endif %}
+{% endblock %}
+
