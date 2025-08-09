@@ -90,4 +90,9 @@ class BookAPITestCase(APITestCase):
         data = {"title": "Unauthorized Update"}
         response = self.client.put(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+    
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='testpass123')
+        login_successful = self.client.login(username='testuser', password='testpass123')
+        self.assertTrue(login_successful)
 
