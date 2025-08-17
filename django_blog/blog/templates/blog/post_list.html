@@ -7,3 +7,8 @@
   <p>No posts available.</p>
 {% endfor %}
 
+<form method="get" action="{% url 'post_list' %}">
+  <input type="text" name="q" placeholder="Search posts..." value="{{ query|default_if_none:'' }}">
+  <button type="submit">Search</button>
+</form>
+
