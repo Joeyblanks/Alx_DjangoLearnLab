@@ -1,0 +1,8 @@
+<h2>Edit Comment</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update Comment</button>
+    <a href="{% url 'post-detail' form.instance.post.pk %}">Cancel</a>
+</form>
+
